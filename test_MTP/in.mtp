@@ -1,0 +1,27 @@
+#dsaf
+
+units           metal
+atom_style      atomic
+
+boundary	p p p
+
+read_data    	benz.data
+
+pair_style      mlip ./mlip.ini
+pair_coeff      * *
+
+
+thermo_style    custom  atoms step time cpu temp pe ke etotal press vol density
+thermo          1
+thermo_modify  	flush yes
+
+timestep	0.0001
+
+dump		1 all cfg 50 ./cfg/benz.*.cfg mass type xs ys zs
+dump_modify 	1 element C H
+dump 		2 all custom 1000  ./pos/benz.*.pos element x y z
+dump_modify	2 element C H
+
+fix             3 all nvt temp 100 100 0.02
+run		10000
+
