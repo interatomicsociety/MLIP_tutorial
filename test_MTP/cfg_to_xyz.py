@@ -110,3 +110,15 @@ def main():
         "(default: 0:C,1:H)",
     )
     args = parser.parse_args()
+    
+    type_map = parse_type_map(args.type_map)
+    frames = list(parse_cfg(args.input))
+    if not frames:
+        print("No BEGIN_CFG/END_CFG blocks found.", file=sys.stderr)
+        sys.exit(1)
+    write_xyz(frames, args.output, type_map)
+    print(f"Converted {len(frames)} frames from {args.input} to {args.output}")
+
+
+if __name__ == "__main__":
+    main()
